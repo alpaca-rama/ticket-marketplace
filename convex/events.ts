@@ -10,3 +10,10 @@ export const get = query({
       .collect();
   },
 })
+
+export const getById = query({
+  args: { eventId: v.id('events') },
+  handler: async (ctx, { eventId }) => {
+    return await ctx.db.get(eventId);
+  },
+})

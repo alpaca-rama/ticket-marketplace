@@ -4,6 +4,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import Spinner from "./Spinner";
 import { CalendarDays, Ticket } from "lucide-react";
+import EventCard from "./EventCard";
 
 export default function EventList() {
   const events = useQuery(api.events.get);
@@ -52,8 +53,7 @@ export default function EventList() {
       {upcomingEvents.length > 0 ? (
         <div className={'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'}>
           {upcomingEvents.map((event) => (
-            // <EventCard key={event._id} eventId={event._id} />
-            hello
+            <EventCard key={event._id} eventId={event._id} />
           ))}
         </div>
       ) : (
@@ -62,6 +62,18 @@ export default function EventList() {
           <h3 className={'text-lg font-medium text-gray-900'}>No upcoming events</h3>
           <p className={'text-gray-600 mt-1'}>Check back later for new events</p>
         </div>
+      )}
+
+      {/* PAST EVENTS SECTION */}
+      {pastEvents.length > 0 && (
+        <>
+          <h2 className={'text-2xl font-bold text-gray-900 mb-6'}>Past Events</h2>
+          <div className={'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'}>
+            {pastEvents.map((event) => (
+              <EventCard key={event._id} eventId={event._id} />
+            ))}
+          </div>
+        </>
       )}
 
     </div>
