@@ -8,6 +8,7 @@ import { api } from "../../convex/_generated/api";
 import { useStorageUrl } from "@/lib/utils";
 import Image from "next/image";
 import { CalendarDays, Check, LoaderCircle, MapPin, PencilIcon, StarIcon, Ticket, XCircle } from "lucide-react";
+import PurchaseTicket from "./PurchaseTicket";
 
 export default function EventCard({ eventId }: { eventId: Id<'events'> }) {
   const { user } = useUser();
@@ -114,11 +115,10 @@ export default function EventCard({ eventId }: { eventId: Id<'events'> }) {
       return (
         <div className={'mt-4'}>
           {queuePosition.status === 'offered' && (
-            // <PurchaseTicket eventId={eventId} />
-            <div></div>
+            <PurchaseTicket eventId={eventId} />
           )}
 
-          {/* {renderQueuePosition()} */}
+          {renderQueuePosition()}
 
           {queuePosition.status === 'expired' && (
             <div className={'p-3 bg-red-50 rounded-lg border border-red-100'}>
