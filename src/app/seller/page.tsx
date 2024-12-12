@@ -1,7 +1,15 @@
-export default function Seller() {
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import SellerDashboard from "@/components/SellerDashboard";
+
+export default async function Seller() {
+  const { userId } = await auth();
+
+  if (!userId) redirect('/');
+
   return (
-    <div className={''}>
-      &lt;Seller /&gt;
+    <div className={'min-h-screen bg-gray-50'}>
+      <SellerDashboard />
     </div>
   );
 }
