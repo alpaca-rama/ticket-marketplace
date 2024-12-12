@@ -70,7 +70,7 @@ export default function PurchaseTicket({ eventId }: PurchaseTicketProps) {
               <div>
                 <h3 className={'text-lg font-semibold text-gray-900'}>Ticket Reserved</h3>
                 <p className={'text-sm text-gray-500'}>
-                  Expire in {timeRemaining}
+                  Expires in {timeRemaining}
                 </p>
               </div>
             </div>
