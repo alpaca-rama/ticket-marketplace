@@ -127,9 +127,9 @@ export const processQueue = mutation({
         offerExpiresAt: now + DURATIONS.TICKET_OFFER,
       });
 
-      // SCHEDULE EXPIRATION JON FOR THIS OFFER
+      // SCHEDULE EXPIRATION JOB FOR THIS OFFER
       await ctx.scheduler.runAfter(
-        DURATIONS.TICKET_OFFER,
+        DURATIONS.TICKET_OFFER, // THE DURATION UNTIL THE SCHEDULE JOB RUNS
         internal.waitingList.expireOffer,
         {
           waitingListId: user._id,

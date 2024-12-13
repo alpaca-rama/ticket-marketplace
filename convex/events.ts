@@ -11,14 +11,14 @@ export const get = query({
       .filter((q) => q.eq(q.field('is_cancelled'), undefined))
       .collect();
   },
-})
+});
 
 export const getById = query({
   args: { eventId: v.id('events') },
   handler: async (ctx, { eventId }) => {
     return await ctx.db.get(eventId);
   },
-})
+});
 
 export const getEventAvailability = query({
   args: { eventId: v.id('events') },
@@ -61,7 +61,7 @@ export const getEventAvailability = query({
       remainingTickets: Math.max(0, event.totalTickets - totalReserved),
     }
   },
-})
+});
 
 // PRETTY MUCH A DIPLICATE OF getEventAvailability
 export const checkAvailability = query({
@@ -105,7 +105,7 @@ export const checkAvailability = query({
       activeOffers
     }
   },
-})
+});
 
 export const joinWaitingList = mutation({
   args: {
@@ -181,4 +181,64 @@ export const joinWaitingList = mutation({
     };
 
   },
-})
+});
+
+export const create = mutation({
+  args: {
+    name: v.string(),
+    description: v.string(),
+    location: v.string(),
+    eventDate: v.number(),
+    price: v.number(),
+    totalTickets: v.number(),
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const eventId = await ctx.db.insert('events', {
+      name: args.name,
+      description: args.description,
+      location: args.location,
+      eventDate: args.eventDate,
+      price: args.price,
+      totalTickets: args.totalTickets,
+      userId: args.userId
+    });
+
+    return eventId;
+  },
+});
+
+export const updateEvent = mutation({
+  args: {
+    eventId: v.id('events'),
+    name: v.string(),
+    description: v.string(),
+    location: v.string(),
+    eventDate: v.number(),
+    price: v.number(),
+    totalTickets: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const { eventId, ...updates } = args;
+
+    // GET CURRENT EVENT TO CHECK TICKETS SOLD
+    const event = await ctx.db.get(eventId);
+
+    if (!event) throw new Error('Event not found');
+
+    const soldTickets = await ctx.db
+      .query('tickets')
+      .withIndex('by_events', (q) => q.eq('eventId', eventId))
+      .filter((q) => q.or(q.eq(q.field('status'), 'valid'), q.eq(q.field('status'), 'used')))
+      .collect();
+
+    // ENSURE NEW TOTAL TICKETS IS NOT LESS THAN SOLD TICKETS
+    if (updates.totalTickets < soldTickets.length) {
+      throw new Error(`Cannot reduce total tickets below ${soldTickets.length} (number of tickets already sold)`);
+    }
+
+    await ctx.db.patch(eventId, updates);
+
+    return eventId;
+  },
+});

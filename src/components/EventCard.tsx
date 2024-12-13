@@ -80,7 +80,7 @@ export default function EventCard({ eventId }: { eventId: Id<'events'> }) {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              router.push(`seller/events/${eventId}/edit`);
+              router.push(`/seller/events/${eventId}/edit`);
             }}
             className={'w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-200 shadow-sm flex items-center justify-center gap-2'}
           >
@@ -178,7 +178,7 @@ export default function EventCard({ eventId }: { eventId: Id<'events'> }) {
           {/* PRICE TAG */}
           <div className={'flex flex-col items-end gap-2 ml-4'}>
             <span className={`px-4 py-1.5 font-semibold rounded-full ${isPastEvent ? 'bg-gray-50 text-gray-500' : 'bg-green-50 text-green-700'}`}>
-              R{event.price.toFixed(2)}
+              ${event.price.toFixed(2)}
             </span>
             {availability.purchasedCount >= availability.totalTickets && (
               <span className={'px-4 py-1.5 bg-red-50 text-red-700 font-semibold rounded-full text-sm'}>
