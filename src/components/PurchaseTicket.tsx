@@ -8,6 +8,7 @@ import { Id } from "../../convex/_generated/dataModel";
 import { useEffect, useState } from "react";
 import { Ticket } from "lucide-react";
 import ReleaseTicket from "./ReleaseTicket";
+import { createStripeCheckoutSession } from "@/actions/createStripeCheckoutSession";
 
 interface PurchaseTicketProps {
   eventId: Id<'events'>;
@@ -58,6 +59,24 @@ export default function PurchaseTicket({ eventId }: PurchaseTicketProps) {
     return null;
   }
 
+  // CREATE STRIPE CHECKOUT...
+  async function handlePurchase() {
+    if (!user) return;
+
+    try {
+      setIsLoading(true);
+      const { sessionUrl } = await createStripeCheckoutSession({ eventId });
+
+      if (sessionUrl) {
+        router.push(sessionUrl);
+      }
+    } catch (error) {
+
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className={'bg-white p-6 rounded-xl shadow-lg border border-amber-200'}>
       <div className={'space-y-4'}>
@@ -82,7 +101,7 @@ export default function PurchaseTicket({ eventId }: PurchaseTicketProps) {
         </div>
 
         <button
-          // onClick={'handlePurchase'}
+          onClick={handlePurchase}
           disabled={isExpired || isLoading}
           className={'w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-4 rounded-lg font-bold shadow-md hover:from-amber-600 hover:to-amber-700 transform hover:scale-[1.02] transition-all duration-200 disabled:from-gray-400 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 text-lg'}
         >
