@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
       {
         hostname: 'beaming-wolverine-451.convex.cloud',
         protocol: 'https',
-      }
+      },
       {
         hostname: 'reliable-moose-114.convex.cloud',
         protocol: 'https',
