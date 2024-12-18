@@ -3,8 +3,6 @@ import Image from "next/image";
 import logo from '@/images/logo.png';
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import SearchBar from "./SearchBar";
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Info } from "lucide-react";
 import LoginInfo from "./LoginInfo";
 
 export default function Header() {

@@ -71,6 +71,7 @@ export default function PurchaseTicket({ eventId }: PurchaseTicketProps) {
         router.push(sessionUrl);
       }
     } catch (error) {
+      console.error('Errpr creatomg checkout session: ', error);
 
     } finally {
       setIsLoading(false);

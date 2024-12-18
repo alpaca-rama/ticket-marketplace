@@ -4,8 +4,6 @@ import { getConvexClient } from "@/lib/convex";
 import { api } from "../../../../../convex/_generated/api";
 import Stripe from "stripe";
 import { StripeCheckoutMetaData } from "@/actions/createStripeCheckoutSession";
-import { metadata } from "@/app/layout";
-import { log } from "console";
 
 export async function POST(req: Request) {
   console.log('WEbhook recieved');
