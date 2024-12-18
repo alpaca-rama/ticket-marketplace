@@ -3,6 +3,9 @@ import Image from "next/image";
 import logo from '@/images/logo.png';
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import SearchBar from "./SearchBar";
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Info } from "lucide-react";
+import LoginInfo from "./LoginInfo";
 
 export default function Header() {
   return (
@@ -39,7 +42,7 @@ export default function Header() {
         </div>
 
         {/* DESKTOP ACTION BUTTONS */}
-        <div className={'hidden lg:block ml-auto'}>
+        <div className={'hidden lg:flex items-center ml-auto'}>
           <SignedIn>
             <div className={'flex items-center gap-3'}>
               <Link href={'/seller'}>
@@ -63,6 +66,7 @@ export default function Header() {
                 Sign In
               </button>
             </SignInButton>
+            <LoginInfo />
           </SignedOut>
         </div>
 
